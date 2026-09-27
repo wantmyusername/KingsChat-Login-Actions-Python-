@@ -1,0 +1,11 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Selenium driver / logs
+geckodriver
+geckodriver.exe
+geckodriver.log
+
+# Credentials — never commit
+Names.csv

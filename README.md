@@ -1,57 +1,67 @@
 # KingsChat Login Actions — Python
 
-Automatización de sesiones y acciones en [KingsChat](https://web.kingsch.at/) usando **Python + Selenium + Firefox**.
+Session and action automation for [KingsChat](https://web.kingsch.at/) built with **Python + Selenium + Firefox**.
 
-El script lee una lista de cuentas, inicia sesión en cada una y realiza acciones configurables: **publicar un estado**, **dar like**, **compartir** y **comentar** un post.
+The script reads a list of accounts, logs into each one, and performs configurable actions: **publish a status**, **like**, **share**, and **comment** on a post.
 
-## ¿Qué hace?
+## What it does
 
-Para cada cuenta en `Names.csv`:
+For each account in `Names.csv`:
 
-1. Abre `https://web.kingsch.at/` y hace login.
-2. Publica un estado aleatorio desde `Status.txt`.
-3. Abre el post indicado en `Post.txt`.
-4. Opcionalmente: hace **like**, **share** y/o **comment** (comentario aleatorio de `Comentarios.txt`).
-5. Limpia cookies y pasa a la siguiente cuenta.
+1. Opens `https://web.kingsch.at/` and logs in.
+2. Publishes a random status from `Status.txt`.
+3. Opens the post URL set in `Post.txt`.
+4. Optionally: **like**, **share**, and/or **comment** (random comment from `Comentarios.txt`).
+5. Clears cookies and moves on to the next account.
 
-## Archivos
+## Files
 
-| Archivo | Descripción |
+| File | Description |
 |---|---|
-| `navegador.py` | Script principal (Selenium / Firefox). |
-| `Names.csv` | Lista de cuentas, una por línea: `usuario,contraseña`. |
-| `Post.txt` | URL del post sobre el que se actúa. |
-| `Status.txt` | Estados posibles (se elige uno al azar). |
-| `Comentarios.txt` | Comentarios posibles (se elige uno al azar). |
-| `geckodriver.exe` | Driver de Firefox para Windows. |
+| `navegador.py` | Main script (Selenium / Firefox). |
+| `Names.csv` | Account list, one per line: `email,password`. **Not tracked** (see `.gitignore`). |
+| `Names.example.csv` | Example format for `Names.csv`. |
+| `Post.txt` | Target post URL. |
+| `Status.txt` | Candidate statuses (one is picked at random). |
+| `Comentarios.txt` | Candidate comments (one is picked at random). |
+| `geckodriver.exe` | Firefox driver for Windows. **Not tracked.** |
 
-## Configuración
+## Configuration
 
-En `navegador.py` se activan/desactivan las acciones con estas banderas:
+In `navegador.py`, toggle each action with these flags:
 
 ```python
-oLike    = "OFF"   # Like al post       (ON / OFF)
-oShare   = "OFF"   # Compartir el post  (ON / OFF)
-oComment = "OFF"   # Comentar el post   (ON / OFF)
+oLike    = "OFF"   # Like the post        (ON / OFF)
+oShare   = "OFF"   # Share the post       (ON / OFF)
+oComment = "OFF"   # Comment on the post  (ON / OFF)
 ```
 
-## Requisitos
+## Requirements
 
-- Python con `selenium` (`pip install selenium`).
-- Mozilla Firefox instalado.
-- `geckodriver` en el `PATH` (incluido para Windows).
+- Python with `selenium` (`pip install selenium`).
+- Mozilla Firefox installed.
+- `geckodriver` available on your `PATH`.
 
-## Uso
+## Setup
+
+Create your local, untracked `Names.csv` from the example:
 
 ```bash
-# 1. Coloca las cuentas en Names.csv (una por línea: usuario,contraseña)
-# 2. Ajusta las banderas en navegador.py
-# 3. Ajusta Post.txt, Status.txt y Comentarios.txt
+cp Names.example.csv Names.csv
+# then edit Names.csv with your accounts: email,password
+```
+
+## Usage
+
+```bash
+# 1. Put accounts in Names.csv (one per line: email,password)
+# 2. Adjust the flags in navegador.py
+# 3. Adjust Post.txt, Status.txt and Comentarios.txt
 python navegador.py
 ```
 
-## Notas
+## Notes
 
-- El código fue escrito para **Python 2** y una versión antigua de Selenium (usa `find_element_by_xpath`, `firefox_profile` y `print e`). Para ejecutarlo hoy hay que actualizarlo a Python 3 y Selenium 4.
-- Los localizadores (XPath) apuntan a la estructura del sitio web y pueden cambiar.
-- Úsalo únicamente con cuentas propias y respetando los términos de servicio de la plataforma.
+- The code targets **Python 2** and an old Selenium version (it uses `find_element_by_xpath`, `firefox_profile`, and `print e`). Running it today requires updating to Python 3 and Selenium 4.
+- The XPaths match the site's markup and may break when the site changes.
+- Use it only with your own accounts and in compliance with the platform's terms of service.
